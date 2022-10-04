@@ -27,3 +27,20 @@ export const AJAX = async function (url, uploadData = undefined) {
     throw err;
   }
 };
+
+// to fractions
+const gcd = (a, b) => (b) ? gcd(b, a % b) : a;
+
+export const decimalToFraction = function (_decimal) {
+  if (_decimal == parseInt(_decimal)) return parseInt(_decimal) + '/' + 1;
+  else {
+    const top = _decimal.toString().includes(".") ? _decimal.toString().replace(/\d+[.]/, '') : 0;
+    const bottom = Math.pow(10, top.toString().replace('-', '').length);
+
+    if (_decimal >= 1) top = +top + (Math.floor(_decimal) * bottom);
+    else if (_decimal <= -1) top = +top + (Math.ceil(_decimal) * bottom);
+
+    const x = Math.abs(gcd(top, bottom));
+    return (top / x) + '/' + (bottom / x);
+  }
+};
